@@ -1,8 +1,10 @@
-# Sypnose Navigator — Deep Browser Navigation for Claude
+# Sypnose Navigator — Browser + Search for Claude
 
-The Sypnose browser agent. Navigate the web with full context — log in to services, extract data, fill forms, take screenshots. Built on Playwright MCP, tuned for production use.
+One agent. Two superpowers: Claude navigates the web AND searches in real time — at the same time, in the same conversation.
 
-**Free. No API key. Windows / Mac / Linux.**
+Like Perplexity Desktop, but for Claude. Free. Open source.
+
+**No API key needed for browser. Brave Search free tier for search (2,000/month).**
 
 ---
 
@@ -14,34 +16,77 @@ Open Claude Desktop or Claude Code and paste:
 Install this MCP agent: https://github.com/sypnose-cloud/agent-sypnose
 ```
 
-Claude configures everything automatically.
+Claude installs both capabilities automatically.
 
 ---
 
 ## What Claude can do
 
-- Navigate any website without losing conversation context
-- Log in to LinkedIn, Gmail, GitHub and stay logged in
-- Fill and submit forms
-- Extract structured content from pages
-- Take screenshots on demand
-- Answer questions about what it sees on screen
+**Search** — without opening a browser
+- Real-time web search with sources
+- Current news, prices, documentation
+- Any question that needs up-to-date information
+
+**Navigate** — deep browser control
+- Open any website and interact with it
+- Log in to services and stay logged in
+- Fill forms, click, extract content, take screenshots
+
+**Both together**
+- Search for something → navigate to the result → extract and summarize
+- Find a company → go to their careers page → draft your application
+- Search for news → navigate to the article → read the full text
 
 ---
 
-## Agents included
+## Config (copy-paste ready)
 
-| Agent | Description |
-|-------|-------------|
-| [browser-agent](./browser-agent) | Deep browser navigation |
-| [search-agent](./search-agent) | Web search with structured results |
+**Claude Desktop** — paste into your config file:
+
+```json
+{
+  "mcpServers": {
+    "browser": {
+      "command": "npx",
+      "args": [
+        "-y", "@playwright/mcp",
+        "--browser", "chromium",
+        "--user-data-dir", "PATH_TO_YOUR_PROFILE"
+      ]
+    },
+    "search": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-brave-search"],
+      "env": {
+        "BRAVE_API_KEY": "your-key-here"
+      }
+    }
+  }
+}
+```
+
+Replace `PATH_TO_YOUR_PROFILE`:
+- Windows: `C:\Users\YourName\sypnose-browser`
+- Mac/Linux: `/home/yourname/.sypnose-browser`
+
+Get a free Brave Search API key at [brave.com/search/api](https://brave.com/search/api).
+
+**Claude Code:**
+```bash
+claude mcp add browser -- npx -y @playwright/mcp --browser chromium --user-data-dir ~/.sypnose-browser
+BRAVE_API_KEY=your-key claude mcp add search -- npx -y @modelcontextprotocol/server-brave-search
+```
 
 ---
 
 ## Difference from agent-free
 
-`agent-free` gives you the raw browser capability.  
-`agent-sypnose` adds opinionated defaults, persistent sessions, and the search agent — tuned for how Sypnose uses Claude in production.
+| | agent-free | agent-sypnose |
+|--|-----------|--------------|
+| Browser navigation | ✅ | ✅ |
+| Web search | basic (via Google) | ✅ real-time API |
+| Persistent sessions | optional | ✅ default |
+| Both at once | ❌ | ✅ |
 
 ---
 
