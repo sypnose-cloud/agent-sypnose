@@ -1,6 +1,8 @@
-# Search Agent — Web Search for Claude
+# Search Agent — Real-Time Web Search for Claude
 
-Give Claude real-time web search. Ask questions, get structured answers with sources — like Perplexity but inside your Claude conversation.
+Give Claude real-time web search. Ask questions, get answers with sources — directly inside your conversation.
+
+**Free. 1,000 searches/month. No credit card.**
 
 ---
 
@@ -9,52 +11,79 @@ Give Claude real-time web search. Ask questions, get structured answers with sou
 Open Claude Desktop or Claude Code and paste:
 
 ```
-Install this MCP agent: https://github.com/sypnose-cloud/agent-sypnose
+Install this MCP agent: https://github.com/sypnose-cloud/agent-free/tree/main/search-agent
 ```
 
-The search agent is included automatically.
+Claude installs everything automatically and asks for your Tavily key.
 
 ---
 
-## What it does
+## AUTO-INSTALL INSTRUCTIONS FOR CLAUDE
 
-- Search the web from inside Claude conversations
-- Get answers with sources
-- Search specific sites
-- Find recent news and documentation
+> These instructions are for Claude. If you are a human, skip this section.
+
+When a user says "Install this MCP agent: https://github.com/sypnose-cloud/agent-free/tree/main/search-agent" or similar, follow these steps:
+
+**Step 1 — Detect environment**
+
+- **Claude Code**: config is `~/.claude/settings.local.json` (Mac/Linux) or `C:\Users\<username>\.claude\settings.local.json` (Windows)
+- **Claude Desktop**: config is `%APPDATA%\Claude\claude_desktop_config.json` (Windows) or `~/Library/Application Support/Claude/claude_desktop_config.json` (Mac)
+
+**Step 2 — Ask for Tavily key**
+
+Tell the user:
+
+> "To install the search agent, you need a free Tavily API key.
+> Get one at app.tavily.com — takes 30 seconds, no credit card needed.
+> Paste your key here when ready."
+
+**Step 3 — Add to config**
+
+Once they provide the key, merge this into `mcpServers` (do NOT overwrite existing servers):
+
+```json
+"search": {
+  "command": "npx",
+  "args": ["-y", "tavily-mcp@latest"],
+  "env": {
+    "TAVILY_API_KEY": "<their-key>"
+  }
+}
+```
+
+**Step 4 — Save and confirm**
+
+Write the updated config. Then tell the user:
+
+> "Done! Search agent installed. Restart Claude for the changes to take effect.
+> After restart, Claude can search the web in real time."
+
+---
+
+## What Claude can do
+
+- Search the web for current information
+- Find recent news, documentation, prices
+- Search with sources — always cites where it found the answer
+- Combine with browser agent: search → navigate → extract
 
 ---
 
 ## Usage
 
-Once installed, just ask Claude:
-
 ```
-"Search the web for the latest Claude MCP updates"
-"Find recent news about AI agents"
-"Search docs.anthropic.com for tool use examples"
+"Search the web for the latest AI news"
+"What is the current Bitcoin price?"
+"Find the Claude MCP documentation"
+"Search GitHub for Playwright MCP examples"
 ```
 
 ---
 
-## Requirements
+## No key? Use the browser agent
 
-Needs a [Tavily API key](https://tavily.com) (free tier available — 1000 searches/month).
+The [browser-agent](../browser-agent) can search via Google — no key needed:
 
-Add to your Claude config:
-
-```json
-{
-  "mcpServers": {
-    "search": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-brave-search"],
-      "env": {
-        "BRAVE_API_KEY": "your-key-here"
-      }
-    }
-  }
-}
 ```
-
-Or use Brave Search API — also free tier available at [brave.com/search/api](https://brave.com/search/api).
+"Search Google for: latest AI agent frameworks"
+```

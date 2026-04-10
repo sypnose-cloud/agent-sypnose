@@ -60,6 +60,17 @@ Write the updated config. Then tell the user:
 
 ---
 
+## Agents
+
+| Agent | What it does | Install |
+|-------|-------------|---------|
+| [browser-agent](./browser-agent) | Navigate any website, click, fill forms, take screenshots | `Install this MCP agent: https://github.com/sypnose-cloud/agent-sypnose/tree/main/browser-agent` |
+| [search-agent](./search-agent) | Real-time web search with sources | `Install this MCP agent: https://github.com/sypnose-cloud/agent-sypnose/tree/main/search-agent` |
+| [capcut-agent](./capcut-agent) | Create and edit videos in CapCut | `Install this MCP agent: https://github.com/sypnose-cloud/agent-sypnose/tree/main/capcut-agent` |
+| [linkedin-agent](./linkedin-agent) | LinkedIn posts, job search, connections | `Install this MCP agent: https://github.com/sypnose-cloud/agent-sypnose/tree/main/linkedin-agent` |
+
+---
+
 ## What Claude can do
 
 **Search** — without opening a browser

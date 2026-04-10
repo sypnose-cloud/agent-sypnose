@@ -1,0 +1,36 @@
+{
+  "mcpServers": {
+    "playwright": {
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp@latest", "--cdp-endpoint", "http://localhost:9222"],
+      "description": "Chrome con sesion LinkedIn activa via CDP",
+      "use_for": "Automatizacion LinkedIn: navegar, click, escribir, screenshot"
+    },
+    "browser": {
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp@latest", "--browser", "chromium", "--user-data-dir", "C:\Users\carlo\chrome-debug-profile"],
+      "description": "Chromium fresco con mismo perfil. Fallback cuando CDP no disponible."
+    },
+    "knowledge-hub": {
+      "command": "npx",
+      "args": ["-y", "supergateway", "--sse", "http://localhost:18793/sse"],
+      "description": "Memoria persistente Sypnose. Requiere SSH tunnel.",
+      "tunnel": "ssh -L 18793:localhost:18793 -p $SYPNOSE_SSH_PORT $SYPNOSE_SSH_USER@$SYPNOSE_SSH_HOST -N &"
+    },
+    "canva": {
+      "type": "claude_ai_mcp",
+      "use_for": "Imagenes posts LinkedIn, carruseles PDF, banners perfil",
+      "brand": { "bg": "#eeece2", "accent": "#da7756", "text": "#1a1a2e", "fonts": ["Poppins", "Lora", "JetBrains Mono"] }
+    },
+    "figma": { "type": "claude_ai_mcp", "use_for": "Disenos complejos, diagramas FigJam" },
+    "gmail": { "type": "claude_ai_mcp", "use_for": "Cold emails, respuestas recruiters" },
+    "google-calendar": { "type": "claude_ai_mcp", "use_for": "Follow-ups, scheduling calls" }
+  },
+  "chrome_setup": {
+    "command": "chrome.exe --remote-debugging-port=9222 --user-data-dir=C:\Users\carlo\chrome-debug-profile",
+    "verify": "curl http://localhost:9222/json/version"
+  },
+  "free_models_via_clliproxy": ["qwen3-coder-plus", "gemini-2.5-flash", "gemini-2.0-flash", "deepseek-v3"],
+  "paid_models": ["claude-sonnet-4-6"],
+  "goal": "80%+ trabajo con modelos GRATIS"
+}
