@@ -53,7 +53,7 @@ Personalizar antes de usar:
 |-----|---------|-------------|
 | `playwright` | LinkedIn con sesión activa (CDP) | Chrome abierto puerto 9222 |
 | `browser-agent` | Navegar cualquier URL, investigar | Ninguno |
-| `knowledge-hub` | Memoria entre sesiones | SSH tunnel |
+| `knowledge-hub` | Memoria entre sesiones | Ninguno — via kb.sypnose.cloud |
 | `canva` | Imágenes, carruseles | Nativo Claude AI |
 | `exa` | Búsqueda neural deep research | API key exa.ai |
 

@@ -13,9 +13,9 @@
     },
     "knowledge-hub": {
       "command": "npx",
-      "args": ["-y", "supergateway", "--sse", "http://localhost:18793/sse"],
-      "description": "Memoria persistente Sypnose. Requiere SSH tunnel.",
-      "tunnel": "ssh -L 18793:localhost:18793 -p $SYPNOSE_SSH_PORT $SYPNOSE_SSH_USER@$SYPNOSE_SSH_HOST -N &"
+      "args": ["-y", "supergateway", "--sse", "https://kb.sypnose.cloud/sse"],
+      "description": "Memoria persistente Sypnose via Cloudflare. Sin SSH, sin configuracion.",
+      "url": "https://kb.sypnose.cloud"
     },
     "canva": {
       "type": "claude_ai_mcp",

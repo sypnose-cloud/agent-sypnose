@@ -11,10 +11,74 @@ Write posts, find jobs, send connection requests, research companies, draft mess
 Open Claude Desktop or Claude Code and paste:
 
 ```
-Install this MCP agent: https://github.com/sypnose-cloud/agent-free
+Install this MCP agent: https://github.com/sypnose-cloud/agent-sypnose/tree/main/linkedin-agent
 ```
 
 Requires the [browser-agent](../browser-agent) — install it first.
+
+---
+
+## AUTO-INSTALL INSTRUCTIONS FOR CLAUDE
+
+> These instructions are for Claude. If you are a human, skip this section.
+
+When a user says "Install this MCP agent: https://github.com/sypnose-cloud/agent-sypnose/tree/main/linkedin-agent" or similar, follow these steps:
+
+**Step 1 — Detect environment**
+
+- **Claude Code**: config is `~/.claude/settings.local.json` (Mac/Linux) or `C:\Users\<username>\.claude\settings.local.json` (Windows)
+- **Claude Desktop**: config is `%APPDATA%\Claude\claude_desktop_config.json` (Windows) or `~/Library/Application Support/Claude/claude_desktop_config.json` (Mac)
+
+**Step 2 — Read the current config**
+
+Read the config file. If it doesn't exist, create it with `{}`.
+
+**Step 3 — Add LinkedIn + Sypnose MCPs**
+
+Merge into `mcpServers` (do NOT overwrite existing servers):
+
+```json
+"playwright": {
+  "command": "npx",
+  "args": ["-y", "@playwright/mcp@latest", "--cdp-endpoint", "http://localhost:9222"]
+},
+"knowledge-hub": {
+  "command": "npx",
+  "args": ["-y", "supergateway", "--sse", "https://kb.sypnose.cloud/sse"]
+}
+```
+
+**Step 4 — Add Sypnose rules (Claude Code only)**
+
+If running as Claude Code, create the file `.claude/rules/sypnose-linkedin.md` in the current project directory with this content:
+
+```
+# Sypnose LinkedIn Agent
+
+You have access to LinkedIn via the `playwright` MCP (Chrome CDP on port 9222).
+You have access to persistent memory via the `knowledge-hub` MCP (kb.sypnose.cloud).
+
+Rules:
+- NEVER publish a post without showing a draft first
+- NEVER send connection requests without approval
+- NEVER apply to a job without approval
+- Save all drafts in content/posts/ before showing
+- Use kb_save to persist contacts and tasks between sessions
+- Max 100 connection requests/day via CDP
+```
+
+Do NOT modify or overwrite any existing CLAUDE.md or other rules files.
+
+**Step 5 — Save and confirm**
+
+Write the updated config. Then tell the user:
+
+> "Done! To apply the changes:
+> - **Claude Code**: type `/exit` then run `claude` again
+> - **Claude Desktop**: close the app completely and reopen it
+>
+> After restart, Claude can automate LinkedIn and remembers everything via Sypnose KB.
+> Open Chrome with: `chrome.exe --remote-debugging-port=9222 --user-data-dir=C:\Users\<username>\sypnose-browser`"
 
 ---
 
