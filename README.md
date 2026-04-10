@@ -4,8 +4,6 @@ One agent. Two superpowers: Claude navigates the web AND searches in real time �
 
 Like Perplexity Desktop, but for Claude. Free. Open source.
 
-**No API key needed for browser. Brave Search free tier for search (2,000/month).**
-
 ---
 
 ## Install
@@ -17,6 +15,63 @@ Install this MCP agent: https://github.com/sypnose-cloud/agent-sypnose
 ```
 
 Claude installs both capabilities automatically.
+
+---
+
+## AUTO-INSTALL INSTRUCTIONS FOR CLAUDE
+
+> These instructions are for Claude. If you are a human, skip this section.
+
+When a user says "Install this MCP agent: https://github.com/sypnose-cloud/agent-sypnose" or similar, follow these steps:
+
+**Step 1 — Detect environment**
+
+- **Claude Code**: config is `~/.claude/settings.local.json` (Mac/Linux) or `C:\Users\<username>\.claude\settings.local.json` (Windows)
+- **Claude Desktop**: config is `%APPDATA%\Claude\claude_desktop_config.json` (Windows) or `~/Library/Application Support/Claude/claude_desktop_config.json` (Mac)
+
+**Step 2 — Read the current config**
+
+Read the config file. If it doesn't exist, create it with `{}`.
+
+**Step 3 — Add browser + search**
+
+Merge this into the `mcpServers` section (do NOT overwrite existing servers):
+
+```json
+"browser": {
+  "command": "npx",
+  "args": ["-y", "@playwright/mcp", "--browser", "chromium", "--user-data-dir", "<profile-path>"]
+}
+```
+
+Replace `<profile-path>`:
+- Windows: `C:\Users\<username>\sypnose-browser`
+- Mac/Linux: `/Users/<username>/.sypnose-browser`
+
+**Step 4 — Handle Tavily key**
+
+Ask the user: "Do you have a Tavily API key? It's free at app.tavily.com — 1,000 searches/month, no credit card. Paste it and I'll add real-time search too. Or skip — browser-only also works."
+
+If they provide a key, also add:
+```json
+"search": {
+  "command": "npx",
+  "args": ["-y", "tavily-mcp@latest"],
+  "env": {
+    "TAVILY_API_KEY": "<their-key>"
+  }
+}
+```
+
+**Step 5 — Save and confirm**
+
+Write the updated config. Then tell the user:
+
+> "Done! To apply the changes:
+> - **Claude Code**: type `/exit` then run `claude` again
+> - **Claude Desktop**: close the app completely and reopen it
+>
+> After restart, Claude can navigate any website and search the web in real time."
 
 ---
 
@@ -36,57 +91,6 @@ Claude installs both capabilities automatically.
 - Search for something → navigate to the result → extract and summarize
 - Find a company → go to their careers page → draft your application
 - Search for news → navigate to the article → read the full text
-
----
-
-## Config (copy-paste ready)
-
-**Claude Desktop** — paste into your config file:
-
-```json
-{
-  "mcpServers": {
-    "browser": {
-      "command": "npx",
-      "args": [
-        "-y", "@playwright/mcp",
-        "--browser", "chromium",
-        "--user-data-dir", "PATH_TO_YOUR_PROFILE"
-      ]
-    },
-    "search": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-brave-search"],
-      "env": {
-        "BRAVE_API_KEY": "your-key-here"
-      }
-    }
-  }
-}
-```
-
-Replace `PATH_TO_YOUR_PROFILE`:
-- Windows: `C:\Users\YourName\sypnose-browser`
-- Mac/Linux: `/home/yourname/.sypnose-browser`
-
-Get a free Brave Search API key at [brave.com/search/api](https://brave.com/search/api).
-
-**Claude Code:**
-```bash
-claude mcp add browser -- npx -y @playwright/mcp --browser chromium --user-data-dir ~/.sypnose-browser
-BRAVE_API_KEY=your-key claude mcp add search -- npx -y @modelcontextprotocol/server-brave-search
-```
-
----
-
-## Difference from agent-free
-
-| | agent-free | agent-sypnose |
-|--|-----------|--------------|
-| Browser navigation | ✅ | ✅ |
-| Web search | basic (via Google) | ✅ real-time API |
-| Persistent sessions | optional | ✅ default |
-| Both at once | ❌ | ✅ |
 
 ---
 
