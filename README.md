@@ -48,22 +48,7 @@ Replace `<profile-path>`:
 - Windows: `C:\Users\<username>\sypnose-browser`
 - Mac/Linux: `/Users/<username>/.sypnose-browser`
 
-**Step 4 — Handle Tavily key**
-
-Ask the user: "Do you have a Tavily API key? It's free at app.tavily.com — 1,000 searches/month, no credit card. Paste it and I'll add real-time search too. Or skip — browser-only also works."
-
-If they provide a key, also add:
-```json
-"search": {
-  "command": "npx",
-  "args": ["-y", "tavily-mcp@latest"],
-  "env": {
-    "TAVILY_API_KEY": "<their-key>"
-  }
-}
-```
-
-**Step 5 — Save and confirm**
+**Step 4 — Save and confirm**
 
 Write the updated config. Then tell the user:
 
