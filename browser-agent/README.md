@@ -38,7 +38,7 @@ Merge into `mcpServers` (do NOT overwrite existing servers):
 ```json
 "browser": {
   "command": "npx",
-  "args": ["-y", "@playwright/mcp", "--browser", "chromium", "--user-data-dir", "<profile-path>"]
+  "args": ["-y", "@playwright/mcp", "--browser", "chrome", "--user-data-dir", "<profile-path>"]
 }
 ```
 
